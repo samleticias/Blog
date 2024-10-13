@@ -33,7 +33,7 @@ public class ProfileController {
         return new ResponseEntity<>(profileService.createProfile(profileDTO), HttpStatus.CREATED);
     }
 
-    @DeleteMapping()
+    @DeleteMapping("/{id}")
     public ResponseEntity deleteProfile(@PathVariable Long id) throws ProfileNotFoundException {
         profileService.deleteProfile(id);
         return new ResponseEntity<>(HttpStatus.OK);
