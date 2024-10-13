@@ -43,4 +43,10 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
+    @DeleteMapping()
+    public ResponseEntity deletePost(@PathVariable Long id) throws PostNotFoundException {
+        postService.deletePost(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

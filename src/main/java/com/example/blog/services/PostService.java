@@ -80,4 +80,9 @@ public class PostService {
         );
     }
 
+    public void deletePost(Long id) throws PostNotFoundException {
+        Post post = getPostById(id);
+        postRepository.delete(post);
+    }
+
 }
