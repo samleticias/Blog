@@ -32,5 +32,11 @@ public class ProfileController {
     public ResponseEntity<Profile> createProfile(@RequestBody ProfileDTO profileDTO) throws UserNotFoundException {
         return new ResponseEntity<>(profileService.createProfile(profileDTO), HttpStatus.CREATED);
     }
+
+    @DeleteMapping()
+    public ResponseEntity deleteProfile(@PathVariable Long id) throws ProfileNotFoundException {
+        profileService.deleteProfile(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
 

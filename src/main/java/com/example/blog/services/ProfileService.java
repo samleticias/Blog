@@ -46,4 +46,11 @@ public class ProfileService {
 
         return profileRepository.save(profile);
     }
+
+    public void deleteProfile(Long id) throws ProfileNotFoundException {
+        Optional<Profile> profileTemp = profileRepository.findById(id);
+        if (profileTemp.isEmpty()) throw new ProfileNotFoundException("Profile with informed id not found");
+
+        profileRepository.delete(profileTemp.get());
+    }
 }
