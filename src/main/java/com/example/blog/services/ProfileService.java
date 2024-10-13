@@ -31,7 +31,7 @@ public class ProfileService {
 
     public Profile getProfileById(Long id) throws ProfileNotFoundException {
         Optional<Profile> profile = profileRepository.findById(id);
-        if (profile.isEmpty()) throw new ProfileNotFoundException("Perfil com id informado não encontrado.");
+        if (profile.isEmpty()) throw new ProfileNotFoundException("Profile not found.");
         return profile.get();
     }
 
