@@ -8,6 +8,7 @@ import com.example.blog.domain.repositories.UserRepository;
 import com.example.blog.rest.dtos.CommentRequestDTO;
 import com.example.blog.rest.dtos.CommentResponseDTO;
 import com.example.blog.rest.dtos.PostDTO;
+import com.example.blog.services.exceptions.LikeNotFoundException;
 import com.example.blog.services.exceptions.PostNotFoundException;
 import com.example.blog.services.exceptions.ProfileNotFoundException;
 import com.example.blog.services.exceptions.UserNotFoundException;
@@ -97,6 +98,18 @@ public class PostService {
 
             likeRepository.save(like);
         }
+    }
+
+    public void removeLike(Long postId, Long userId) throws LikeNotFoundException {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new LikeNotFoundException("Post not found"));
+
+        Like like = likeRepository.findByPost_PostIdAndUser_UserId(postId, userId)
+                .orElseThrow(() -> new LikeNotFoundException("Like not found"));
+
+        post.getLikes().remove(like);
+        postRepository.save(post);
+        likeRepository.delete(like);
     }
 
     public void deletePost(Long id) throws PostNotFoundException {

@@ -1,5 +1,6 @@
 package com.example.blog.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,8 +28,8 @@ public class Like {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "postId", nullable = false)
-    @JsonIgnore
+    @JoinColumn(name = "post_id", nullable = false)
+    @JsonBackReference
     private Post post;
 
     public Like(User user, Post post) {
