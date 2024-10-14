@@ -1,10 +1,8 @@
 package com.example.blog.services;
 
-import com.example.blog.domain.entities.Comment;
-import com.example.blog.domain.entities.Post;
-import com.example.blog.domain.entities.Profile;
-import com.example.blog.domain.entities.User;
+import com.example.blog.domain.entities.*;
 import com.example.blog.domain.repositories.CommentRepository;
+import com.example.blog.domain.repositories.LikeRepository;
 import com.example.blog.domain.repositories.PostRepository;
 import com.example.blog.domain.repositories.UserRepository;
 import com.example.blog.rest.dtos.CommentRequestDTO;
@@ -29,6 +27,9 @@ public class PostService {
 
     @Autowired
     private CommentRepository commentRepository;
+
+    @Autowired
+    private LikeRepository likeRepository;
 
     @Autowired
     private ProfileService profileService;
@@ -78,6 +79,24 @@ public class PostService {
                 comment.getUsername(),
                 comment.getCreatedAt()
         );
+    }
+
+    public void likePost(Long postId, Long userId) throws UserNotFoundException, PostNotFoundException {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new PostNotFoundException("Post not found"));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        boolean alreadyLiked = post.getLikes().stream()
+                .anyMatch(like -> like.getUser().getUserId().equals(userId));
+
+        if (!alreadyLiked) {
+            Like like = new Like(user, post);
+            like.setCreatedAt(LocalDateTime.now());
+
+            likeRepository.save(like);
+        }
     }
 
     public void deletePost(Long id) throws PostNotFoundException {

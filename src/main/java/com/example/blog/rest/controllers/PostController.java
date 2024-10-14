@@ -4,6 +4,7 @@ import com.example.blog.domain.entities.Comment;
 import com.example.blog.domain.entities.Post;
 import com.example.blog.rest.dtos.CommentRequestDTO;
 import com.example.blog.rest.dtos.CommentResponseDTO;
+import com.example.blog.rest.dtos.LikeRequestDTO;
 import com.example.blog.rest.dtos.PostDTO;
 import com.example.blog.services.PostService;
 import com.example.blog.services.exceptions.PostNotFoundException;
@@ -48,5 +49,12 @@ public class PostController {
         postService.deletePost(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/{postId}/like")
+    public ResponseEntity<Void> likePost(@PathVariable Long postId, @RequestBody LikeRequestDTO likeRequestDTO) throws UserNotFoundException, PostNotFoundException {
+        postService.likePost(postId, likeRequestDTO.userId());
+        return ResponseEntity.ok().build();
+    }
+
 
 }
