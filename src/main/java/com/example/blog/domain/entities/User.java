@@ -30,10 +30,11 @@ public class User {
     private String password;
     private LocalDateTime registrationDate;
 
-    public User (UserDTO userDTO){
+    public User(UserDTO userDTO, String hashedPassword) {
         this.username = userDTO.username();
         this.email = userDTO.email();
-        this.password = userDTO.password();
+        this.password = hashedPassword;
         this.registrationDate = LocalDateTime.now();
     }
+
 }

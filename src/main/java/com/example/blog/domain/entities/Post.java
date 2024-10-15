@@ -32,6 +32,9 @@ public class Post {
     @JsonManagedReference
     private List<Like> likes;
 
+    @Transient
+    private String formattedDate;
+
     public Post (){
         this.postDate = LocalDateTime.now();
     }

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/user")
 public class UserViewController {
-
     private static final Logger logger = LoggerFactory.getLogger(UserViewController.class);
 
     @Autowired

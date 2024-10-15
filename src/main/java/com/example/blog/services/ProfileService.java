@@ -33,6 +33,10 @@ public class ProfileService {
         return profileRepository.findAll();
     }
 
+    public Profile getProfileByUsername(String username) {
+        return profileRepository.findByUserUsername(username);
+    }
+
     public Profile getProfileById(Long id) throws ProfileNotFoundException {
         Optional<Profile> profile = profileRepository.findById(id);
         if (profile.isEmpty()) throw new ProfileNotFoundException("Profile not found.");
