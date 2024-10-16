@@ -3,10 +3,7 @@ package com.example.blog.rest.controllers;
 import com.example.blog.domain.entities.Comment;
 import com.example.blog.domain.entities.Like;
 import com.example.blog.domain.entities.Post;
-import com.example.blog.rest.dtos.CommentRequestDTO;
-import com.example.blog.rest.dtos.CommentResponseDTO;
-import com.example.blog.rest.dtos.LikeRequestDTO;
-import com.example.blog.rest.dtos.PostDTO;
+import com.example.blog.rest.dtos.*;
 import com.example.blog.services.PostService;
 import com.example.blog.services.exceptions.LikeNotFoundException;
 import com.example.blog.services.exceptions.PostNotFoundException;
@@ -62,6 +59,12 @@ public class PostController {
     public ResponseEntity<?> removeLike(@PathVariable Long postId, @RequestBody LikeRequestDTO likeRequestDTO) throws LikeNotFoundException {
         postService.removeLike(postId, likeRequestDTO.userId());
         return ResponseEntity.ok("Like successfully removed.");
+    }
+
+    @PutMapping
+    public ResponseEntity<Post> updatePost (@RequestBody PostEditionDTO postEditionDTO) throws PostNotFoundException {
+        Post post = postService.updatePost(postEditionDTO);
+        return ResponseEntity.ok(post);
     }
 
 }

@@ -8,6 +8,7 @@ import com.example.blog.domain.repositories.UserRepository;
 import com.example.blog.rest.dtos.CommentRequestDTO;
 import com.example.blog.rest.dtos.CommentResponseDTO;
 import com.example.blog.rest.dtos.PostDTO;
+import com.example.blog.rest.dtos.PostEditionDTO;
 import com.example.blog.services.exceptions.LikeNotFoundException;
 import com.example.blog.services.exceptions.PostNotFoundException;
 import com.example.blog.services.exceptions.ProfileNotFoundException;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostService {
@@ -115,6 +117,13 @@ public class PostService {
     public void deletePost(Long id) throws PostNotFoundException {
         Post post = getPostById(id);
         postRepository.delete(post);
+    }
+
+    public Post updatePost(PostEditionDTO postEditionDTO) throws PostNotFoundException {
+        Post post = this.getPostById(postEditionDTO.postId());
+        post.setPostText(postEditionDTO.text());
+        this.savePost(post);
+        return post;
     }
 
 }
