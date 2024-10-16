@@ -38,5 +38,11 @@ public class ProfileController {
         profileService.deleteProfile(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PutMapping
+    public ResponseEntity<Profile> updateProfile (@RequestBody ProfileDTO profileDTO) throws ProfileNotFoundException {
+        Profile profile = profileService.updateProfile(profileDTO);
+        return ResponseEntity.ok(profile);
+    }
 }
 

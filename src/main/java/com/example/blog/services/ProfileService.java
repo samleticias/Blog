@@ -8,11 +8,7 @@ import com.example.blog.rest.dtos.ProfileDTO;
 import com.example.blog.services.exceptions.ProfileNotFoundException;
 import com.example.blog.services.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +31,10 @@ public class ProfileService {
 
     public Profile getProfileByUsername(String username) {
         return profileRepository.findByUserUsername(username);
+    }
+
+    public void save(Profile profile) {
+        this.profileRepository.save(profile);
     }
 
     public Profile getProfileById(Long id) throws ProfileNotFoundException {
@@ -60,6 +60,14 @@ public class ProfileService {
         if (profileTemp.isEmpty()) throw new ProfileNotFoundException("Profile with informed id not found");
 
         profileRepository.delete(profileTemp.get());
+    }
+
+    public Profile updateProfile(ProfileDTO profileDTO) throws ProfileNotFoundException {
+        Profile profile = this.getProfileById((long) profileDTO.userId());
+        profile.setBiography(profileDTO.biography());
+        profile.setName(profileDTO.name());
+        this.save(profile);
+        return profile;
     }
 
 }
