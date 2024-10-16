@@ -64,4 +64,18 @@ public class UserService {
         userRepository.delete(user.get());
     }
 
+    public User updateUser(Long id, UserDTO userDTO) throws UserNotFoundException {
+        User user = this.getUserById(id);
+        user.setEmail(userDTO.email());
+        user.setUsername(userDTO.username());
+
+        if (userDTO.password() != null && !userDTO.password().isEmpty()) {
+            String hashedPassword = BCrypt.hashpw(userDTO.password(), BCrypt.gensalt());
+            user.setPassword(hashedPassword);
+        }
+
+        this.saveUser(user);
+        return user;
+    }
+
 }
